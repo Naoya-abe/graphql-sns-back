@@ -14,8 +14,8 @@ export class UserResolver {
         hashedPassword: 'password',
         nickname: 'testuser',
         selfIntroduction: 'Hello, I am a test user!',
-        createdAt: '2022-03-27T10:00:00Z',
-        updatedAt: '2022-03-27T12:00:00Z',
+        createdAt: new Date('2022-03-27T10:00:00Z'),
+        updatedAt: new Date('2022-03-27T12:00:00Z'),
       },
       {
         id: '2',
@@ -23,8 +23,8 @@ export class UserResolver {
         hashedPassword: 'password',
         nickname: 'johnsmith',
         selfIntroduction: 'Hi, I am John Smith!',
-        createdAt: '2022-03-28T09:00:00Z',
-        updatedAt: '2022-03-28T10:30:00Z',
+        createdAt: new Date('2022-03-28T09:00:00Z'),
+        updatedAt: new Date('2022-03-28T10:30:00Z'),
       },
       {
         id: '3',
@@ -32,8 +32,8 @@ export class UserResolver {
         hashedPassword: 'password',
         nickname: 'jane_doe',
         selfIntroduction: 'Nice to meet you! I am Jane Doe.',
-        createdAt: '2022-03-29T14:00:00Z',
-        updatedAt: '2022-03-29T15:20:00Z',
+        createdAt: new Date('2022-03-29T14:00:00Z'),
+        updatedAt: new Date('2022-03-29T15:20:00Z'),
       },
     ];
   }
