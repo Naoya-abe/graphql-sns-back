@@ -1,9 +1,11 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { CreateUserDto } from './dto/CreateUser.dto';
 import { UserModel } from './models/user.model';
+import { UserService } from './user.service';
 
 @Resolver((of) => UserModel)
 export class UserResolver {
-  constructor() {}
+  constructor(private readonly userService: UserService) {}
 
   @Query(() => [UserModel], { name: 'users' })
   async getUsers() {
@@ -36,5 +38,13 @@ export class UserResolver {
         updatedAt: new Date('2022-03-29T15:20:00Z'),
       },
     ];
+  }
+
+  @Mutation(() => UserModel, { name: 'createUser' })
+  async createUser(
+    @Args('createUserDto') createUserDto: CreateUserDto,
+  ): Promise<UserModel> {
+    const createdUser = await this.userService.createUser(createUserDto);
+    return createdUser;
   }
 }

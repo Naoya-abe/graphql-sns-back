@@ -2,7 +2,7 @@
 CREATE TABLE `User` (
     `id` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
-    `hasedPassword` VARCHAR(191) NOT NULL,
+    `hashedPassword` VARCHAR(191) NOT NULL,
     `nickname` VARCHAR(191) NOT NULL,
     `selfIntroduction` VARCHAR(191) NOT NULL DEFAULT '',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
