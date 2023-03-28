@@ -13,7 +13,6 @@ export class UserResolver {
       {
         id: '1',
         email: 'test@example.com',
-        hashedPassword: 'password',
         nickname: 'testuser',
         selfIntroduction: 'Hello, I am a test user!',
         createdAt: new Date('2022-03-27T10:00:00Z'),
@@ -22,7 +21,6 @@ export class UserResolver {
       {
         id: '2',
         email: 'john@example.com',
-        hashedPassword: 'password',
         nickname: 'johnsmith',
         selfIntroduction: 'Hi, I am John Smith!',
         createdAt: new Date('2022-03-28T09:00:00Z'),
@@ -31,7 +29,6 @@ export class UserResolver {
       {
         id: '3',
         email: 'jane@example.com',
-        hashedPassword: 'password',
         nickname: 'jane_doe',
         selfIntroduction: 'Nice to meet you! I am Jane Doe.',
         createdAt: new Date('2022-03-29T14:00:00Z'),

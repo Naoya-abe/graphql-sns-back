@@ -8,7 +8,6 @@ export class UserModel {
   @Field((type) => String)
   email: string;
 
-  @Field((type) => String)
   hashedPassword: string;
 
   @Field((type) => String)

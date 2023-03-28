@@ -6,7 +6,6 @@
 type UserModel {
   id: ID!
   email: String!
-  hashedPassword: String!
   nickname: String!
   selfIntroduction: String!
   createdAt: DateTime!
@@ -29,5 +28,4 @@ type Mutation {
 input CreateUserDto {
   email: String!
   password: String!
-  confirmPassword: String!
 }
