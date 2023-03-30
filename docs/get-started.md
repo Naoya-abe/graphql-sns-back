@@ -20,7 +20,7 @@ graphql-sns-backレポジトリのクローンが完了したら以下のコマ�
 $ cd graphql-sns-back
 $ cp .env.example .env
 $ npm i
-$ npm run dev
+$ npm run start:dev
 ```
 
 またDockerDesktopが立ち上がっている状態で、別タブで以下のコマンドを入力してDBを立ち上げてください。
