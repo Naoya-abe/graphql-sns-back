@@ -46,6 +46,8 @@ type Mutation {
   createUser(createUserDto: CreateUserDto!): UserModel!
   login(loginDto: LoginDto!): LoginModel!
   createPost(createPostDto: CreatePostDto!): PostModel!
+  editPost(editPostDto: EditPostDto!): PostModel!
+  deletePost(deletePostDto: DeletePostDto!): PostModel!
 }
 
 input CreateUserDto {
@@ -61,4 +63,13 @@ input LoginDto {
 input CreatePostDto {
   userId: String!
   content: String!
+}
+
+input EditPostDto {
+  postId: String!
+  content: String!
+}
+
+input DeletePostDto {
+  postId: String!
 }

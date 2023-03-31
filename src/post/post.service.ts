@@ -4,6 +4,8 @@ import { CreatePostDto } from './dto/createPost.dto';
 import { PostModel } from './model/post.model';
 import { UserService } from 'src/user/user.service';
 import { GetPostByIdDto } from './dto/getPostById.dto';
+import { EditPostDto } from './dto/editPost.dto';
+import { DeletePostDto } from './dto/deletePost.dto';
 
 @Injectable()
 export class PostService {
@@ -43,6 +45,29 @@ export class PostService {
     const user = await this.userService.getUserById(post.userId);
     if (!user) return null;
     const response = { ...post, user };
+    return response;
+  }
+
+  async editPost(editPostDto: EditPostDto): Promise<PostModel | null> {
+    const { postId, content } = editPostDto;
+    const editedPost = await this.prisma.post.update({
+      where: { id: postId },
+      data: { content },
+    });
+    if (!editedPost) return;
+    const user = await this.userService.getUserById(editedPost.userId);
+    const response = { ...editedPost, user };
+    return response;
+  }
+
+  async deletePost(deletePostDto: DeletePostDto): Promise<PostModel | null> {
+    const { postId } = deletePostDto;
+    const deletedPost = await this.prisma.post.delete({
+      where: { id: postId },
+    });
+    if (!deletedPost) return null;
+    const user = await this.userService.getUserById(deletedPost.userId);
+    const response = { ...deletedPost, user };
     return response;
   }
 }

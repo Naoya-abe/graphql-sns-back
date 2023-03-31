@@ -4,6 +4,8 @@ import { PostService } from './post.service';
 import { CreatePostDto } from './dto/createPost.dto';
 import { GetPostByIdDto } from './dto/getPostById.dto';
 import { log } from 'console';
+import { EditPostDto } from './dto/editPost.dto';
+import { DeletePostDto } from './dto/deletePost.dto';
 
 @Resolver((of) => PostModel)
 export class PostResolver {
@@ -29,5 +31,21 @@ export class PostResolver {
   ): Promise<PostModel> {
     const post = await this.postService.getPostById(getPostByIdDto);
     return post;
+  }
+
+  @Mutation(() => PostModel, { name: 'editPost' })
+  async editPost(
+    @Args('editPostDto') editPostDto: EditPostDto,
+  ): Promise<PostModel> {
+    const editedPost = await this.postService.editPost(editPostDto);
+    return editedPost;
+  }
+
+  @Mutation(() => PostModel, { name: 'deletePost' })
+  async deletePost(
+    @Args('deletePostDto') deletePostDto: DeletePostDto,
+  ): Promise<PostModel> {
+    const deletedPost = await this.postService.deletePost(deletePostDto);
+    return deletedPost;
   }
 }
