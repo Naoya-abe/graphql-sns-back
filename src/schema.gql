@@ -22,13 +22,30 @@ type LoginModel {
   jwt: String!
 }
 
+"""post"""
+type PostModel {
+  id: ID!
+  content: String!
+  userId: String!
+  user: UserModel!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
   users: [UserModel!]!
+  posts: [PostModel!]!
+  post(getPostByIdDto: GetPostByIdDto!): PostModel!
+}
+
+input GetPostByIdDto {
+  postId: String!
 }
 
 type Mutation {
   createUser(createUserDto: CreateUserDto!): UserModel!
   login(loginDto: LoginDto!): LoginModel!
+  createPost(createPostDto: CreatePostDto!): PostModel!
 }
 
 input CreateUserDto {
@@ -39,4 +56,9 @@ input CreateUserDto {
 input LoginDto {
   email: String!
   password: String!
+}
+
+input CreatePostDto {
+  userId: String!
+  content: String!
 }
