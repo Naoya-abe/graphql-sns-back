@@ -8,3 +8,8 @@ export class DeletePostDto {
   @IsNotEmpty()
   postId: string;
 }
+
+export interface DeletePostArgs {
+  userId: string;
+  postId: string;
+}

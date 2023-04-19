@@ -5,7 +5,7 @@ import { PostModel } from './model/post.model';
 import { UserService } from 'src/user/user.service';
 import { GetPostByIdDto } from './dto/getPostById.dto';
 import { EditPostArgs } from './dto/editPost.dto';
-import { DeletePostDto } from './dto/deletePost.dto';
+import { DeletePostArgs } from './dto/deletePost.dto';
 
 @Injectable()
 export class PostService {
@@ -73,8 +73,20 @@ export class PostService {
     return response;
   }
 
-  async deletePost(deletePostDto: DeletePostDto): Promise<PostModel | null> {
-    const { postId } = deletePostDto;
+  async deletePost(deletePostArgs: DeletePostArgs): Promise<PostModel | null> {
+    const { userId, postId } = deletePostArgs;
+
+    // リクエストを投げてきたユーザーがその投稿を作成したユーザーか検証
+    const getPostByIdDto = { postId };
+    const targetPost = await this.getPostById(getPostByIdDto);
+    const targetPostAuthorId = targetPost.userId;
+    const isSameUser = userId === targetPostAuthorId;
+    if (!isSameUser) {
+      console.error('Delete：Not Same User');
+      return;
+    }
+
+    // 検証が完了したらDeleteの処理が走る
     const deletedPost = await this.prisma.post.delete({
       where: { id: postId },
     });

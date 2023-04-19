@@ -59,8 +59,12 @@ export class PostResolver {
   @UseGuards(JwtAuthGuard)
   async deletePost(
     @Args('deletePostDto') deletePostDto: DeletePostDto,
+    @Context() context: ContextWithUser,
   ): Promise<PostModel> {
-    const deletedPost = await this.postService.deletePost(deletePostDto);
+    const userId = context.req.user.id;
+    const { postId } = deletePostDto;
+    const deletePostArgs = { userId, postId };
+    const deletedPost = await this.postService.deletePost(deletePostArgs);
     return deletedPost;
   }
 }
