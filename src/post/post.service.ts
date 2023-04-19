@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreatePostDto } from './dto/createPost.dto';
+import { CreatePostArgs } from './dto/createPost.dto';
 import { PostModel } from './model/post.model';
 import { UserService } from 'src/user/user.service';
 import { GetPostByIdDto } from './dto/getPostById.dto';
@@ -14,8 +14,8 @@ export class PostService {
     private readonly userService: UserService,
   ) {}
 
-  async createPost(createPostDto: CreatePostDto): Promise<PostModel> {
-    const { userId, content } = createPostDto;
+  async createPost(createPostArgs: CreatePostArgs): Promise<PostModel> {
+    const { userId, content } = createPostArgs;
     const createdPost = await this.prisma.post.create({
       data: {
         userId,

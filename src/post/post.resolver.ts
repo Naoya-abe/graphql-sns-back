@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PostModel } from './model/post.model';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/createPost.dto';
@@ -7,6 +7,7 @@ import { EditPostDto } from './dto/editPost.dto';
 import { DeletePostDto } from './dto/deletePost.dto';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwtAuth.guard';
+import { ContextWithUser } from './types/customContext.type';
 
 @Resolver((of) => PostModel)
 export class PostResolver {
@@ -16,8 +17,12 @@ export class PostResolver {
   @UseGuards(JwtAuthGuard)
   async createPost(
     @Args('createPostDto') createPostDto: CreatePostDto,
+    @Context() context: ContextWithUser,
   ): Promise<PostModel> {
-    const createdPost = await this.postService.createPost(createPostDto);
+    const userId = context.req.user.id;
+    const { content } = createPostDto;
+    const createPostArgs = { userId, content };
+    const createdPost = await this.postService.createPost(createPostArgs);
     return createdPost;
   }
 

@@ -61,7 +61,6 @@ input LoginDto {
 }
 
 input CreatePostDto {
-  userId: String!
   content: String!
 }
 
