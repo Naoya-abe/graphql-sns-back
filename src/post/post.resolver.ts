@@ -46,8 +46,12 @@ export class PostResolver {
   @UseGuards(JwtAuthGuard)
   async editPost(
     @Args('editPostDto') editPostDto: EditPostDto,
+    @Context() context: ContextWithUser,
   ): Promise<PostModel> {
-    const editedPost = await this.postService.editPost(editPostDto);
+    const userId = context.req.user.id;
+    const { postId, content } = editPostDto;
+    const editPostArgs = { userId, postId, content };
+    const editedPost = await this.postService.editPost(editPostArgs);
     return editedPost;
   }
 

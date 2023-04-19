@@ -4,7 +4,7 @@ import { CreatePostArgs } from './dto/createPost.dto';
 import { PostModel } from './model/post.model';
 import { UserService } from 'src/user/user.service';
 import { GetPostByIdDto } from './dto/getPostById.dto';
-import { EditPostDto } from './dto/editPost.dto';
+import { EditPostArgs } from './dto/editPost.dto';
 import { DeletePostDto } from './dto/deletePost.dto';
 
 @Injectable()
@@ -48,13 +48,26 @@ export class PostService {
     return response;
   }
 
-  async editPost(editPostDto: EditPostDto): Promise<PostModel | null> {
-    const { postId, content } = editPostDto;
+  async editPost(editPostArgs: EditPostArgs): Promise<PostModel | null> {
+    const { userId, postId, content } = editPostArgs;
+
+    // リクエストを投げてきたユーザーがその投稿を作成したユーザーか検証
+    const getPostByIdDto = { postId };
+    const targetPost = await this.getPostById(getPostByIdDto);
+    const targetPostAuthorId = targetPost.userId;
+    const isSameUser = userId === targetPostAuthorId;
+    if (!isSameUser) {
+      console.error('Edit：Not Same User');
+      return;
+    }
+
+    // 検証が完了したらEditの処理が走る
     const editedPost = await this.prisma.post.update({
       where: { id: postId },
       data: { content },
     });
     if (!editedPost) return;
+
     const user = await this.userService.getUserById(editedPost.userId);
     const response = { ...editedPost, user };
     return response;

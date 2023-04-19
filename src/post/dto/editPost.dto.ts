@@ -14,3 +14,9 @@ export class EditPostDto {
   @MaxLength(200)
   content: string;
 }
+
+export interface EditPostArgs {
+  userId: string;
+  postId: string;
+  content: string;
+}
