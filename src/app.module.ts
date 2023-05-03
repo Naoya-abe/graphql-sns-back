@@ -14,6 +14,7 @@ import { PostModule } from './post/post.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: true,
+      installSubscriptionHandlers: true,
     }),
     UserModule,
     AuthModule,

@@ -1,4 +1,11 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  Mutation,
+  Query,
+  Resolver,
+  Subscription,
+} from '@nestjs/graphql';
 import { PostModel } from './model/post.model';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/createPost.dto';
@@ -8,6 +15,10 @@ import { DeletePostDto } from './dto/deletePost.dto';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwtAuth.guard';
 import { ContextWithUser } from './types/customContext.type';
+import { PubSub } from 'graphql-subscriptions';
+
+const pubSub = new PubSub();
+const POST_ADDED_EVENT = 'postAdded';
 
 @Resolver((of) => PostModel)
 export class PostResolver {
@@ -23,6 +34,7 @@ export class PostResolver {
     const { content } = createPostDto;
     const createPostArgs = { userId, content };
     const createdPost = await this.postService.createPost(createPostArgs);
+    pubSub.publish(POST_ADDED_EVENT, { postAdded: createdPost });
     return createdPost;
   }
 
@@ -66,5 +78,10 @@ export class PostResolver {
     const deletePostArgs = { userId, postId };
     const deletedPost = await this.postService.deletePost(deletePostArgs);
     return deletedPost;
+  }
+
+  @Subscription(() => PostModel)
+  postAdded() {
+    return pubSub.asyncIterator(POST_ADDED_EVENT);
   }
 }

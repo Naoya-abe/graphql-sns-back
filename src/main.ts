@@ -7,5 +7,6 @@ async function bootstrap() {
   app.enableCors({ origin: ['http://localhost:3000'] });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   await app.listen(8080);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
